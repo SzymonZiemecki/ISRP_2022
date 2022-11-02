@@ -2,7 +2,7 @@
 
  #### Rozpoczynajac swoje zadanie switchujemy na odpowiadajacego mu brancha -> git checkout nazwaBrancha
  #### Konwencja nazw branchy wyklada mniej wiecej tak :
-rozX_expY -> zawiera początkową konfiguracje projektu wymaganą do rozpoczęcia projektu  
+rozX_expY -> zawiera początkową konfiguracje projektu wymaganą do rozpoczęcia realizacji zadania
 rozX_expY_final -> zawiera wprowadzone poprawki wykonane w ramach wykonania zadania   
 Po zamknieciu rozdziału przenosimy poprawiony kod aplikacji do następnego brancha tak żeby został konfiguracją początkową do kolejnego eksperymentu tj.
 
