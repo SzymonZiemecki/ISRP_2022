@@ -39,7 +39,7 @@ public class SortTabNumbers {
     }
 
     public boolean checkMinOrderSort() {
-        for (int k = 0; k <= tab.length - 1; k++) {
+        for (int k = 0; k < tab.length - 1; k++) {
             if (tab[k] > tab[k + 1]) {
                 return false;
             }
