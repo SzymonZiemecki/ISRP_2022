@@ -1,14 +1,17 @@
 #!/usr/bin/expect -f
 
-spawn jdb -classpath ./target/classes/ -sourcepath ./src/main/java/pl.lodz.p.it.isrp.Start 5
+set timeout -1
 
-expect ">"
-send -- "stop on pl.lodz.p.it.isrp.SortTabNumbers:29\r"
+spawn jdb -attach 8080
+expect "main"
 
-expect ">"
-send --"run\r"
+send "stop in pl.lodz.p.it.isrp.SortTabNumbers:28\r"
+expect "main"
 
-send -- "print i\r"
-send -- "print j\r"
+send "run\r"
+expect "Breakpoint hit:"
+
+send "print i\r"
+send "print j\r"
 
 expect eof
