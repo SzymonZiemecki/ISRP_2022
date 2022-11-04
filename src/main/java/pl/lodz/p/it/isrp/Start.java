@@ -3,6 +3,8 @@ package pl.lodz.p.it.isrp;
 import pl.lodz.p.it.isrp.model.PhilosopherModel;
 import pl.lodz.p.it.isrp.model.TableModel;
 
+import java.util.concurrent.Semaphore;
+
 /**
  * Aplikacja przygotowana do celów diagnostycznych, która prezentuje przykładowe
  * rozwiązanie problemu ucztujących filozofów. Krótki opis problemu: przy
@@ -36,9 +38,10 @@ public class Start {
             final int PHILOSOPHERS_NUMBER = Integer.parseInt(args[0].trim());
             threads = new Thread[PHILOSOPHERS_NUMBER];
             TableModel table = new TableModel(PHILOSOPHERS_NUMBER);
+            Semaphore semaphore = new Semaphore(PHILOSOPHERS_NUMBER-1);
             for (int i = 0; i < PHILOSOPHERS_NUMBER; i++) {
                 PhilosopherModel philosopher = new PhilosopherModel(i + 1);
-                threads[i] = new Thread(new PhilosopherRunnable(table, philosopher));
+                threads[i] = new Thread(new PhilosopherRunnable(table, philosopher, semaphore));
                 threads[i].setName("Wątek reprezentujący filozofa " + (i + 1));
                 threads[i].start();
             }
