@@ -5,12 +5,13 @@ set timeout -1
 spawn jdb -attach 8080
 expect "main"
 
-send "stop in pl.lodz.p.it.isrp.SortTabNumbers:29\r"
+send "stop at pl.lodz.p.it.isrp.SortTabNumbers:29\r"
 expect "main"
 
 send "run\r"
-expect "Breakpoint hit:"
+expect "Breakpoint hit: \"thread=main\""
 
+expect "main"
 send "print tab\[i\]\r"
 expect "main"
 
