@@ -12,7 +12,7 @@ public class TableModel {
             throw new IllegalArgumentException("Liczba widelców na stole musi być wartością dodatnią i zgodną z liczbą filozofów, a podano "+ forksNumber);
         }
         forks = new Object[forksNumber];
-        for(int i=0; i<=forksNumber; i++) {
+        for(int i=0; i<forksNumber; i++) {
             forks[i] = new Object();
         }
     }
