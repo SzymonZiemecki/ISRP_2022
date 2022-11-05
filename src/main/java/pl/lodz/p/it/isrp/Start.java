@@ -36,7 +36,7 @@ public class Start {
             final int PHILOSOPHERS_NUMBER = Integer.parseInt(args[0].trim());
             threads = new Thread[PHILOSOPHERS_NUMBER];
             TableModel table = new TableModel(PHILOSOPHERS_NUMBER);
-            for (int i = 0; i < PHILOSOPHERS_NUMBER-1; i++) {
+            for (int i = 0; i < PHILOSOPHERS_NUMBER; i++) {
                 PhilosopherModel philosopher = new PhilosopherModel(i + 1);
                 threads[i] = new Thread(new PhilosopherRunnable(table, philosopher));
                 threads[i].setName("Wątek reprezentujący filozofa " + (i + 1));
