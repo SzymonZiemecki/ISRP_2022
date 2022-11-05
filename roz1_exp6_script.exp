@@ -11,6 +11,7 @@ expect "main"
 send "run\r"
 expect "Breakpoint hit:"
 
+expect "main"
 send "print i\r"
 send "print j\r"
 
