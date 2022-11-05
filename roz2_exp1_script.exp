@@ -1,0 +1,36 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+
+spawn jdb -attach 8080
+expect "main"
+
+send "stop at pl.lodz.p.it.isrp.model.TableModel:16\r"
+expect "main"
+
+send "run\r"
+expect "Breakpoint hit: \"thread=main\""
+
+expect "main"
+send "print forks\r"
+expect "main"
+
+set count 4;
+while {$count > 0 } {
+send "cont\r"
+expect "Breakpoint hit: \"thread=main\""
+set count [expr $count-1];
+}
+
+expect "main"
+send "print i\r"
+expect "main"
+
+send "cont\r"
+expect "Breakpoint hit: \"thread=main\""
+
+expect "main"
+send "print i\r"
+expect "main"
+
+expect eof
