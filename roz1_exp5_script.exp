@@ -9,17 +9,13 @@ send "stop at pl.lodz.p.it.isrp.SortTabNumbers:29\r"
 expect "main"
 
 send "run\r"
-expect "Breakpoint hit:"
+expect "Breakpoint hit: \"thread=main\""
 
-send "print i\r"
 expect "main"
-
-send "print j\r"
-expect "main"
-
 send "print tab\[i\]\r"
 expect "main"
 
 send "print tab\[j\]\r"
+expect "main"
 
 expect eof

@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="178ff8c4-d3bf-4f79-89ad-7cf7c81f8dba" name="Changes" comment="added expect script">
-      <change afterPath="$PROJECT_DIR$/roz1_exp5_script.exp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ISRP_2022.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pl/lodz/p/it/isrp/PhilosopherRunnable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pl/lodz/p/it/isrp/Start.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pl/lodz/p/it/isrp/model/PhilosopherModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pl/lodz/p/it/isrp/model/TableModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/roz1_exp5_script.exp" beforeDir="false" afterPath="$PROJECT_DIR$/roz1_exp5_script.exp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SortingTable_debug-1.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SortingTable_debug-1.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
