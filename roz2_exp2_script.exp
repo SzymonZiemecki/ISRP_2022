@@ -1,0 +1,12 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+
+spawn jdb -attach 8080
+expect "main"
+
+send "run\r"
+
+send "threads\r"
+
+expect eof
