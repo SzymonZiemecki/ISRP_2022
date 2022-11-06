@@ -1,8 +1,10 @@
 package pl.lodz.p.it.isrp;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 /**
  * Rozwiązanie problemu sortowania tablicy (zawiera błędy które należy usunąć z
@@ -12,17 +14,9 @@ import java.sql.SQLException;
 public class Start {
 
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        String connectionUrl = System.getenv("DATABASE_CONNECTION_URL") + System.getenv("DATABASE_NAME");
-        String dbUser = System.getenv("DATABASE_USER");
-        String dbPassword = System.getenv("DATABASE_PASSWORD");
-        try {
-            Connection conn2 = DriverManager.getConnection(connectionUrl, dbUser,dbPassword);
-            if (conn2 != null) {
-                System.out.println("Connected to database");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        String connectionUrl = "jdbc:derby:/home/student/IdeaProjects/ISRP_2022/ISRP_DB";
+        String dbUser = "root";
+        String dbPassword = "password";
         if (args.length == 0) {
             System.out.println("Brak podanej liczby całkowitej jako argumentu wywołania");
             System.exit(1);
@@ -32,7 +26,36 @@ public class Start {
 
             System.out.println("Przed sortowaniem: " + sortExample); //niejawne wywołanie metody sortExample.toString()
 
-            sortExample.sort(); 
+            sortExample.sort();
+
+            try(Connection conn = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
+                Statement stmt = conn.createStatement();
+            ) {
+                ZonedDateTime currentTime = ZonedDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy_HHmmss_SSS_zz");
+                String tableName = "sorted_" + currentTime.format(formatter);
+                String sql = "CREATE TABLE " + tableName +
+                        "(ID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), " +
+                        " value BIGINT NOT NULL, " +
+                        " timestamp DATE, " +
+                        " PRIMARY KEY ( id ))";
+                stmt.executeUpdate(sql);
+                System.out.println("Created table in given database...");
+
+                long[] array = sortExample.getTab();
+                for(long number : array){
+                    try (PreparedStatement insertNumber = conn.prepareStatement(
+                            "INSERT INTO " + tableName + " (value, timestamp) VALUES (?, ?)"
+                    )) {
+                        insertNumber.setLong(1, number);
+                        insertNumber.setDate(2, Date.valueOf(LocalDate.now()));
+                        insertNumber.execute();
+                    }
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
             if (sortExample.checkMinOrderSort()) {
                 System.out.println("Po sortowaniu: " + sortExample); //niejawne wywołanie metody sortExample.toString()
