@@ -1,0 +1,32 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+
+spawn jdb -attach 8080
+expect "main"
+
+send "stop in pl.lodz.p.it.isrp.SortTabNumbers:29\r"
+expect "main"
+
+send "run\r"
+expect "Breakpoint hit: \"thread=main\""
+
+expect "main"
+send "dump tab\r"
+expect "main"
+
+send "stop in pl.lodz.p.it.isrp.SortTabNumbers:42\r"
+expect "main"
+
+send "clear pl.lodz.p.it.isrp.SortTabNumbers:29\r"
+expect "Removed"
+
+send "cont\r"
+expect "Breakpoint hit: \"thread=main\""
+
+expect "main"
+send "dump tab\r"
+expect "main"
+
+send "exit\r"
+expect eof
