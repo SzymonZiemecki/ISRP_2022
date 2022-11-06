@@ -2,3 +2,6 @@
 *.iml
 ./target
 nbactions.xml
+ISRP_DB
+derby.log
+target/
