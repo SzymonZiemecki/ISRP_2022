@@ -1,5 +1,6 @@
 package pl.lodz.p.it.isrp;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,10 +12,11 @@ import java.sql.SQLException;
  */
 public class Start {
 
+    private static final String connectionUrl = System.getenv("DATABASE_CONNECTION_URL") + System.getenv("DATABASE_NAME");
+    private static final String dbUser = System.getenv("DATABASE_USER");
+    private static final String dbPassword = System.getenv("DATABASE_PASSWORD");
+
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        String connectionUrl = System.getenv("DATABASE_CONNECTION_URL") + System.getenv("DATABASE_NAME");
-        String dbUser = System.getenv("DATABASE_USER");
-        String dbPassword = System.getenv("DATABASE_PASSWORD");
         try {
             Connection conn2 = DriverManager.getConnection(connectionUrl, dbUser,dbPassword);
             if (conn2 != null) {
@@ -32,11 +34,16 @@ public class Start {
 
             System.out.println("Przed sortowaniem: " + sortExample); //niejawne wywołanie metody sortExample.toString()
 
-            sortExample.sort(); 
+            sortExample.sort();
 
             if (sortExample.checkMinOrderSort()) {
                 System.out.println("Po sortowaniu: " + sortExample); //niejawne wywołanie metody sortExample.toString()
             }
+
+            try(DatabaseWriter databaseWriter = new DatabaseWriter(connectionUrl,dbUser, dbPassword, sortExample.getTab())){
+                databaseWriter.connect();
+            }
+
         } catch (NumberFormatException nfe) {
             System.out.println("Podany argument nie jest liczbą");
             System.exit(2);

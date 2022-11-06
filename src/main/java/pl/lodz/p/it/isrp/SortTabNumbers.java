@@ -11,6 +11,10 @@ public class SortTabNumbers {
 
     private final long tab[];
 
+    public long[] getTab() {
+        return tab;
+    }
+
     public SortTabNumbers(final int max) {
         tab = new long[max];
         for (int i = 0; i < max; i++) {
