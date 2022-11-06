@@ -40,9 +40,12 @@ public class DatabaseWriter implements AutoCloseable{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy_HHmmss_SSS_zz");
             this.tableName = "sorted_" + currentTime.format(formatter);
             String sql = "CREATE TABLE " + tableName +
-                    "(value BIGINT NOT NULL, " +
-                    " timestamp TIMESTAMP, " +
-                    " PRIMARY KEY ( value ))";
+                    " (timestamp TIMESTAMP, ";
+            for(int i = 0 ; i < numbers.length; i++){
+                sql += "NR" + i + " BIGINT NOT NULL, ";
+            }
+
+            sql +=" PRIMARY KEY ( timestamp ))";
             stmt.executeUpdate(sql);
             System.out.println("Utworzono tabele: " + tableName);
         } catch (SQLException e) {
@@ -52,7 +55,32 @@ public class DatabaseWriter implements AutoCloseable{
     }
 
     private void insertValues() {
-        for(long number : numbers){
+        String sql = "INSERT INTO " + tableName + "(timestamp, ";
+        for(int i = 0; i < numbers.length-1; i++){
+            sql += "NR" + i + ", ";
+        }
+
+        sql += ")";
+
+        sql += ") VALUES (";
+        for(int i = 0; i < numbers.length; i++){
+            sql += "?, ";
+        }
+
+        sql += "?)";
+        try (PreparedStatement insertNumber = conn.prepareStatement(sql)) {
+            insertNumber.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            for(int i = 0; i<numbers.length; i++){
+                insertNumber.setLong(i+2, numbers[i]);
+            }
+            insertNumber.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+/*        for(long number : numbers){
             try (PreparedStatement insertNumber = conn.prepareStatement(
                     "INSERT INTO " + tableName + " (value, timestamp) VALUES (?, ?)"
             )) {
@@ -63,7 +91,7 @@ public class DatabaseWriter implements AutoCloseable{
                 throw new RuntimeException(e);
             }
 
-        }
+        }*/
     }
 
     @Override
