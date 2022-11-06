@@ -1,0 +1,56 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+
+spawn jdb -attach 8080
+expect "main"
+
+send "stop in pl.lodz.p.it.isrp.SortTabNumbers:42\r"
+expect "main"
+
+send "catch java.lang.ArrayIndexOutOfBoundsException\r"
+expect "main"
+
+send "run\r"
+expect "Breakpoint hit: \"thread=main\""
+expect "main"
+
+send "print tab.length\r"
+expect "main"
+
+send "stop in pl.lodz.p.it.isrp.SortTabNumbers:43\r"
+expect "main"
+
+send "cont\r"
+expect "Breakpoint hit: \"thread=main\""
+
+expect "main"
+send "print k\r"
+expect "main"
+
+send "print k \+ 1\r"
+expect "main"
+
+send "cont\r"
+expect "Breakpoint hit: \"thread=main\""
+
+expect "main"
+send "print k\r"
+expect "main"
+
+send "print k \+ 1\r"
+expect "main"
+
+send "cont\r"
+expect "Breakpoint hit: \"thread=main\""
+expect "main"
+
+send "print k\r"
+expect "main"
+
+send "print k \+ 1\r"
+expect "main"
+
+send "cont\r"
+
+expect eof
