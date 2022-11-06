@@ -1,4 +1,4 @@
-# Praca z branchami
+# Praca z rozgałęzieniami
 
  #### Rozpoczynajac swoje zadanie wykonujemy polecenie git checkout na odpowiadające mu rozgałęzienie -> git checkout nazwaRozgałezienia
  #### Konwencja nazw rozgałęzień wyklada następująco:
