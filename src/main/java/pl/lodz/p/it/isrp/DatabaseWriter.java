@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class DatabaseWriter implements AutoCloseable{
+public class DatabaseWriter implements AutoCloseable {
     private final String connectionUrl;
     private final String dbUser;
     private final String dbPassword;
@@ -29,7 +29,7 @@ public class DatabaseWriter implements AutoCloseable{
         }
     }
 
-    public void save(){
+    public void save() {
         createTable();
         insertValues();
     }
@@ -41,11 +41,11 @@ public class DatabaseWriter implements AutoCloseable{
             this.tableName = "sorted_" + currentTime.format(formatter);
             String sql = "CREATE TABLE " + tableName +
                     " (timestamp TIMESTAMP, ";
-            for(int i = 0 ; i < numbers.length; i++){
+            for (int i = 0; i < numbers.length; i++) {
                 sql += "NR" + i + " BIGINT NOT NULL, ";
             }
 
-            sql +=" PRIMARY KEY ( timestamp ))";
+            sql += " PRIMARY KEY ( timestamp ))";
             stmt.executeUpdate(sql);
             System.out.println("Utworzono tabele: " + tableName);
         } catch (SQLException e) {
@@ -56,42 +56,28 @@ public class DatabaseWriter implements AutoCloseable{
 
     private void insertValues() {
         String sql = "INSERT INTO " + tableName + "(timestamp, ";
-        for(int i = 0; i < numbers.length-1; i++){
+        for (int i = 0; i < numbers.length; i++) {
             sql += "NR" + i + ", ";
         }
 
-        sql += ")";
+        sql = sql.substring(0, sql.length() - 2);
 
         sql += ") VALUES (";
-        for(int i = 0; i < numbers.length; i++){
+        for (int i = 0; i < numbers.length; i++) {
             sql += "?, ";
         }
 
         sql += "?)";
         try (PreparedStatement insertNumber = conn.prepareStatement(sql)) {
             insertNumber.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-            for(int i = 0; i<numbers.length; i++){
-                insertNumber.setLong(i+2, numbers[i]);
+            for (int i = 0; i < numbers.length; i++) {
+                insertNumber.setLong(i + 2, numbers[i]);
             }
             insertNumber.execute();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
-
-
-
-/*        for(long number : numbers){
-            try (PreparedStatement insertNumber = conn.prepareStatement(
-                    "INSERT INTO " + tableName + " (value, timestamp) VALUES (?, ?)"
-            )) {
-                insertNumber.setLong(1, number);
-                insertNumber.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-                insertNumber.execute();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-        }*/
     }
 
     @Override

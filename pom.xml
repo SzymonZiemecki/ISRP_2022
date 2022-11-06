@@ -38,7 +38,7 @@
                         <argument>-classpath</argument>
                         <classpath />
                         <argument>pl.lodz.p.it.isrp.Start</argument>
-                        <argument>5</argument>
+                        <argument>1000</argument>
                     </arguments>
                     <environmentVariables>
                         <DATABASE_NAME>${db_name}</DATABASE_NAME>
