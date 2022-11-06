@@ -7,18 +7,15 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DatabaseWriter implements AutoCloseable{
-    private final String connectionUrl;
-    private final String dbUser;
-    private final String dbPassword;
     private final long[] numbers;
     private String tableName;
 
+    private static final String connectionUrl = System.getenv("DATABASE_CONNECTION_URL") + System.getenv("DATABASE_NAME");
+    private static final String dbUser = System.getenv("DATABASE_USER");
+    private static final String dbPassword = System.getenv("DATABASE_PASSWORD");
     private Connection conn;
 
-    public DatabaseWriter(String connectionUrl, String dbUser, String dbPassword, long[] numbers) {
-        this.connectionUrl = connectionUrl;
-        this.dbUser = dbUser;
-        this.dbPassword = dbPassword;
+    public DatabaseWriter(long[] numbers) {
         this.numbers = numbers;
     }
 
