@@ -1,0 +1,21 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+
+spawn jdb -attach 8080
+expect "main"
+
+send "stop in pl.lodz.p.it.isrp.SortTabNumbers:19\r"
+expect "main"
+
+send "run\r"
+for {set i 0} {$i < 3} {incr i 1} {
+	expect "Breakpoint hit: \"thread=main\""
+	expect "main"
+	send "print pos\r"
+    expect "main"
+	send "cont\r"
+}
+
+send "exit\r"
+expect eof
