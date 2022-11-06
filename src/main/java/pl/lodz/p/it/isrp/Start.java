@@ -3,6 +3,7 @@ package pl.lodz.p.it.isrp;
 import pl.lodz.p.it.isrp.model.PhilosopherModel;
 import pl.lodz.p.it.isrp.model.TableModel;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -30,27 +31,79 @@ public class Start {
     private static Thread[] threads;
 
     public static void main(String[] args) {
-        if (args.length == 0) {
-            System.out.println("Brak podanej liczby całkowitej jako argumentu wywołania.");
-            System.exit(1);
+        switch (args.length)
+        {
+            case 0:
+                System.out.println("Brak podanej liczby całkowitej jako argumentu wywołania.");
+                System.exit(1);
+                break;
+            case 1:
+                try {
+                    final int PHILOSOPHERS_NUMBER = Integer.parseInt(args[0].trim());
+                    threads = new Thread[PHILOSOPHERS_NUMBER];
+                    TableModel table = new TableModel(PHILOSOPHERS_NUMBER);
+                    Semaphore semaphore = new Semaphore(PHILOSOPHERS_NUMBER-1);
+                    for (int i = 0; i < PHILOSOPHERS_NUMBER; i++) {
+                        PhilosopherModel philosopher = new PhilosopherModel(i + 1);
+                        threads[i] = new Thread(new PhilosopherRunnable(table, philosopher, semaphore));
+                        threads[i].setName("Wątek reprezentujący filozofa " + (i + 1));
+                        threads[i].start();
+                    }
+                } catch (NumberFormatException nfe) {
+                    System.out.println("Podany argument nie jest liczbą.");
+                    System.exit(2);
+                } catch (Throwable ex) {
+                    System.err.println("Wystąpił wyjątek typu: " + ex.getClass().getName() + " Szczegóły: " + ex.getMessage());
+                    System.exit(3);
+                }
+                break;
+            case 2:
+                try {
+                    final int epochNumber = Integer.parseInt(args[0].trim());
+                    final int mealsAndPhilosophersMaxNumber = Integer.parseInt(args[1].trim());
+                    if (epochNumber < 2 || mealsAndPhilosophersMaxNumber < 2) {
+                        System.out.println("Podane argumenty muszą być większe od 1.");
+                        System.exit(1);
+                        break;
+                    }
+                    for (int i = 1; i <= epochNumber; i++) {
+                        System.out.println("\n----------------------------------------------------------");
+                        System.out.println("\n######################## Etap: " + i + " ########################\n");
+                        int mealsAndPhilosophersNumber = (int) (Math.random() * (mealsAndPhilosophersMaxNumber - 2) + 2);
+                        System.out.println("Liczba filozofów w etapie " + i + " wynosi: " + mealsAndPhilosophersNumber);
+                        TableModel table = new TableModel(mealsAndPhilosophersNumber);
+                        threads = new Thread[mealsAndPhilosophersNumber];
+                        Semaphore semaphore = new Semaphore(mealsAndPhilosophersNumber - 1);
+                        CountDownLatch countDownLatch = new CountDownLatch(mealsAndPhilosophersNumber);
+                        for (int j = 0; j < mealsAndPhilosophersNumber; j++) {
+                            int mealsNumber = (int) (Math.random() * (mealsAndPhilosophersMaxNumber - 2) + 2);
+                            PhilosopherModel philosopher = new PhilosopherModel(j + 1);
+                            threads[j] = new Thread(new PhilosopherRunnable(table,
+                                    philosopher,
+                                    semaphore,
+                                    mealsNumber,
+                                    countDownLatch
+                            ));
+                            threads[j].setName("Wątek reprezentujący filozofa " + (j + 1));
+                            System.out.println(threads[j].getName() + " zje podczas uczty " + mealsNumber + " posiłków.");
+                        }
+                        System.out.println("\n############ Rozpoczęcie uczty dla etapu nr." + i + " ############\n");
+                        for (int j = 0; j < mealsAndPhilosophersNumber; j++) {
+                            threads[j].start();
+                        }
+                        countDownLatch.await();
+                        System.out.println("\n############ Zakończenie uczty dla etapu nr." + i + " ############");
+                    }
+                } catch (NumberFormatException nfe) {
+                    System.out.println("Jeden lub oba z podanych argumentów nie są liczbami.");
+                    System.exit(2);
+                } catch (Throwable ex) {
+                    System.err.println("Wystpił wyjątek typu: " + ex.getClass().getName() + " Szczegóły: " + ex.getMessage());
+                    System.exit(3);
+                }
+                break;
+
         }
-        try {
-            final int PHILOSOPHERS_NUMBER = Integer.parseInt(args[0].trim());
-            threads = new Thread[PHILOSOPHERS_NUMBER];
-            TableModel table = new TableModel(PHILOSOPHERS_NUMBER);
-            Semaphore semaphore = new Semaphore(PHILOSOPHERS_NUMBER-1);
-            for (int i = 0; i < PHILOSOPHERS_NUMBER; i++) {
-                PhilosopherModel philosopher = new PhilosopherModel(i + 1);
-                threads[i] = new Thread(new PhilosopherRunnable(table, philosopher, semaphore));
-                threads[i].setName("Wątek reprezentujący filozofa " + (i + 1));
-                threads[i].start();
-            }
-        } catch (NumberFormatException nfe) {
-            System.out.println("Podany argument nie jest liczbą.");
-            System.exit(2);
-        } catch (Throwable ex) {
-            System.err.println("Wystąpił wyjątek typu: " + ex.getClass().getName() + " Szczegóły: " + ex.getMessage());
-            System.exit(3);
-        }
+
     }
 }

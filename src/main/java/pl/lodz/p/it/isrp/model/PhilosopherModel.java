@@ -56,4 +56,5 @@ public class PhilosopherModel {
         sb.append(" ms");
         return sb.toString();
     }
+
 }
