@@ -1,0 +1,20 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+
+spawn jdb -attach 8080
+expect "main"
+
+send "stop at pl.lodz.p.it.isrp.model.PhilosopherModel:34\r"
+expect "main"
+
+send "run\r"
+expect "Breakpoint hit:"
+
+sleep 1
+send "print restsCounter\r"
+sleep 1
+send "print mealsCounter\r"
+expect "main"
+
+expect eof
