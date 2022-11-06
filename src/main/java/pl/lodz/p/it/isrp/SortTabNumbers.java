@@ -13,7 +13,7 @@ public class SortTabNumbers {
 
     public SortTabNumbers(final int max) {
         tab = new long[max];
-        long temp = 0;
+        long temp;
         for (long pos : tab) {
             pos = (long) Math.random() * Long.MAX_VALUE;
             temp = pos;
