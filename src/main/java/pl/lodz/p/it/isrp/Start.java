@@ -28,33 +28,8 @@ public class Start {
 
             sortExample.sort();
 
-            try(Connection conn = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
-                Statement stmt = conn.createStatement();
-            ) {
-                ZonedDateTime currentTime = ZonedDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy_HHmmss_SSS_zz");
-                String tableName = "sorted_" + currentTime.format(formatter);
-                String sql = "CREATE TABLE " + tableName +
-                        "(ID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), " +
-                        " value BIGINT NOT NULL, " +
-                        " timestamp DATE, " +
-                        " PRIMARY KEY ( id ))";
-                stmt.executeUpdate(sql);
-                System.out.println("Created table in given database...");
-
-                long[] array = sortExample.getTab();
-                for(long number : array){
-                    try (PreparedStatement insertNumber = conn.prepareStatement(
-                            "INSERT INTO " + tableName + " (value, timestamp) VALUES (?, ?)"
-                    )) {
-                        insertNumber.setLong(1, number);
-                        insertNumber.setDate(2, Date.valueOf(LocalDate.now()));
-                        insertNumber.execute();
-                    }
-
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            try(DatabaseWriter databaseWriter = new DatabaseWriter(connectionUrl, dbUser, dbPassword, sortExample.getTab())){
+                databaseWriter.save();
             }
 
             if (sortExample.checkMinOrderSort()) {
