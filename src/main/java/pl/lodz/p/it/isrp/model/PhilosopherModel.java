@@ -30,7 +30,7 @@ public class PhilosopherModel {
 
     public void eating() throws InterruptedException {
         isEating = true;
-        restsCounter++;
+        mealsCounter++;
         time = ThreadLocalRandom.current().nextInt(MIN_EAT_TIME, MAX_EAT_TIME);
         System.out.println(this);
         Thread.sleep(time);
@@ -38,7 +38,7 @@ public class PhilosopherModel {
 
     public void resting() throws InterruptedException {
         isEating = false;
-        mealsCounter++;
+        restsCounter++;
         time = ThreadLocalRandom.current().nextInt(MAX_REST_TIME);
         System.out.println(this);
         Thread.sleep(time);
