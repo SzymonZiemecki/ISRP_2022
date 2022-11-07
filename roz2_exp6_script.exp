@@ -5,5 +5,21 @@ set timeout -1
 spawn jdb -attach 8080
 expect "main"
 
+send "stop at pl.lodz.p.it.isrp.PhilosopherRunnable.feastConsumption\r"
+expect "main"
+
+send "run\r"
+expect "Breakpoint hit:"
+expect "thread=Wątek reprezentujący filozofa"
+expect "Wątek reprezentujący filozofa"
+
+send "set table=null\r"
+expect "Wątek reprezentujący filozofa"
+
+send "clear pl.lodz.p.it.isrp.PhilosopherRunnable.feastConsumption\r"
+expect "Wątek reprezentujący filozofa"
+
+send "cont\r"
+expect ">"
 
 expect eof
