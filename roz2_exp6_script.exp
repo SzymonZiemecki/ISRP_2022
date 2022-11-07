@@ -5,9 +5,5 @@ set timeout -1
 spawn jdb -attach 8080
 expect "main"
 
-send "run\r"
-expect ">"
 
-send "threads\r"
-expect ">"
 expect eof
