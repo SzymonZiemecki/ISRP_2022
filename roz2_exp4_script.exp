@@ -8,13 +8,17 @@ expect "main"
 send "stop at pl.lodz.p.it.isrp.model.PhilosopherModel:34\r"
 expect "main"
 
+
 send "run\r"
 expect "Breakpoint hit:"
+expect "thread=Wątek reprezentujący filozofa"
+expect "Wątek reprezentujący filozofa"
 
-sleep 1
+
 send "print restsCounter\r"
-sleep 1
+expect "Wątek reprezentujący filozofa"
 send "print mealsCounter\r"
-expect "main"
+expect "Wątek reprezentujący filozofa"
+
 
 expect eof
