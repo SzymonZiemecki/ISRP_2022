@@ -30,6 +30,7 @@ public class Start {
     public static final int THREADS_STATE_DELAY = 60;
     private static Thread[] threads;
     private static int PHILOSOPHERS_NUMBER;
+
     public static void main(String[] args) {
         switch (args.length)
         {
@@ -106,4 +107,5 @@ public class Start {
         }
 
     }
+
 }
