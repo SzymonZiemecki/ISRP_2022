@@ -22,7 +22,9 @@ public class DatabaseWriter implements AutoCloseable{
     public void connect(){
         try {
             this.conn = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
-            System.out.println("Polaczono z baza danych");
+            if(this.conn !=null) {
+                System.out.println("Polaczono z baza danych");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
