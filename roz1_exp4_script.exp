@@ -9,7 +9,8 @@ send "stop at pl.lodz.p.it.isrp.SortTabNumbers:29\r"
 expect "main"
 
 send "run\r"
-expect "Breakpoint hit:"
+expect "Breakpoint hit: \"thread=main\""
+expect "main"
 
 send "print i\r"
 expect "main"
