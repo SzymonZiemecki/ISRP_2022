@@ -12,10 +12,10 @@ send "run\r"
 expect "Breakpoint hit: \"thread=main\""
 
 expect "main"
-send "print tab\[i\]\r"
+send "print i\r"
 expect "main"
 
-send "print tab\[j\]\r"
+send "print j\r"
 expect "main"
 
 expect eof
