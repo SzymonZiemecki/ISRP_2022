@@ -29,7 +29,7 @@ public class Start {
 
     public static final int THREADS_STATE_DELAY = 60;
     private static Thread[] threads;
-
+    private static int PHILOSOPHERS_NUMBER;
     public static void main(String[] args) {
         switch (args.length)
         {
@@ -39,7 +39,7 @@ public class Start {
                 break;
             case 1:
                 try {
-                    final int PHILOSOPHERS_NUMBER = Integer.parseInt(args[0].trim());
+                    PHILOSOPHERS_NUMBER = Integer.parseInt(args[0].trim());
                     threads = new Thread[PHILOSOPHERS_NUMBER];
                     TableModel table = new TableModel(PHILOSOPHERS_NUMBER);
                     Semaphore semaphore = new Semaphore(PHILOSOPHERS_NUMBER-1);
@@ -60,39 +60,39 @@ public class Start {
             case 2:
                 try {
                     final int epochNumber = Integer.parseInt(args[0].trim());
-                    final int mealsAndPhilosophersMaxNumber = Integer.parseInt(args[1].trim());
-                    if (epochNumber < 2 || mealsAndPhilosophersMaxNumber < 2) {
-                        System.out.println("Podane argumenty muszą być większe od 1.");
+                    PHILOSOPHERS_NUMBER = Integer.parseInt(args[1].trim());
+                    if (epochNumber < 2) {
+                        System.out.println("Ilość epok musi być większa od 1.");
+                        System.exit(1);
+                        break;
+                    }
+                    else if (PHILOSOPHERS_NUMBER < 2) {
+                        System.out.println("Liczba filozofów musi być większa od 1.");
                         System.exit(1);
                         break;
                     }
                     for (int i = 1; i <= epochNumber; i++) {
                         System.out.println("\n----------------------------------------------------------");
-                        System.out.println("\n######################## Etap: " + i + " ########################\n");
-                        int mealsAndPhilosophersNumber = (int) (Math.random() * (mealsAndPhilosophersMaxNumber - 2) + 2);
+                        System.out.println("\nEtap: " + i + "\n");
+                        int mealsAndPhilosophersNumber = (int) (Math.random() * (PHILOSOPHERS_NUMBER - 2) + 2);
                         System.out.println("Liczba filozofów w etapie " + i + " wynosi: " + mealsAndPhilosophersNumber);
                         TableModel table = new TableModel(mealsAndPhilosophersNumber);
                         threads = new Thread[mealsAndPhilosophersNumber];
                         Semaphore semaphore = new Semaphore(mealsAndPhilosophersNumber - 1);
                         CountDownLatch countDownLatch = new CountDownLatch(mealsAndPhilosophersNumber);
                         for (int j = 0; j < mealsAndPhilosophersNumber; j++) {
-                            int mealsNumber = (int) (Math.random() * (mealsAndPhilosophersMaxNumber - 2) + 2);
+                            int mealsNumber = (int) (Math.random() * (PHILOSOPHERS_NUMBER - 2) + 2);
                             PhilosopherModel philosopher = new PhilosopherModel(j + 1);
-                            threads[j] = new Thread(new PhilosopherRunnable(table,
-                                    philosopher,
-                                    semaphore,
-                                    mealsNumber,
-                                    countDownLatch
-                            ));
+                            threads[j] = new Thread(new PhilosopherRunnable(table, philosopher, semaphore, mealsNumber, countDownLatch));
                             threads[j].setName("Wątek reprezentujący filozofa " + (j + 1));
-                            System.out.println(threads[j].getName() + " zje podczas uczty " + mealsNumber + " posiłków.");
+                            System.out.println(threads[j].getName() + ", liczba posiłków do zjedzenia przez filozofa: " + mealsNumber);
                         }
-                        System.out.println("\n############ Rozpoczęcie uczty dla etapu nr." + i + " ############\n");
+                        System.out.println("\nRozpoczęcie uczty dla etapu nr. " + i + "\n");
                         for (int j = 0; j < mealsAndPhilosophersNumber; j++) {
                             threads[j].start();
                         }
                         countDownLatch.await();
-                        System.out.println("\n############ Zakończenie uczty dla etapu nr." + i + " ############");
+                        System.out.println("\nZakończenie uczty dla etapu nr. " + i);
                     }
                 } catch (NumberFormatException nfe) {
                     System.out.println("Jeden lub oba z podanych argumentów nie są liczbami.");
