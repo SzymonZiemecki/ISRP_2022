@@ -30,7 +30,13 @@ public class Start {
     public static final int THREADS_STATE_DELAY = 60;
     private static Thread[] threads;
     private static int PHILOSOPHERS_NUMBER;
+
+    private static final Thread.UncaughtExceptionHandler exeptionHandler = (t, e) -> {
+        System.err.println("Wątek " + t.getName() + " zgłosił nieobsłużony wyjątek typu:" + e.getClass().getName() + ". Szczegóły: " + e.getMessage());
+        System.exit(3);
+    };
     public static void main(String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler(exeptionHandler);
         switch (args.length)
         {
             case 0:

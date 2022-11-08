@@ -9,6 +9,7 @@ send "stop at pl.lodz.p.it.isrp.PhilosopherRunnable.feastConsumption\r"
 expect "main"
 
 send "run\r"
+expect ">"
 expect "Breakpoint hit:"
 expect "thread=Wątek reprezentujący filozofa"
 expect "Wątek reprezentujący filozofa"
@@ -20,6 +21,8 @@ send "clear pl.lodz.p.it.isrp.PhilosopherRunnable.feastConsumption\r"
 expect "Wątek reprezentujący filozofa"
 
 send "cont\r"
-expect ">"
+expect "Wątek reprezentujący filozofa"
+send "cont\r"
+
 
 expect eof
