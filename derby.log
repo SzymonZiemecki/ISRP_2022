@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue Nov 08 23:12:24 UTC 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-0184-5984-2460-0000077bced0 
+on database directory /home/student/IdeaProjects/ISRP_2022/ISRP_DB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@67424e82 
+Loaded from file:/home/student/.config/JetBrains/IntelliJIdea2022.2/jdbc-drivers/Apache%20Derby/10.14.1.0/derby-10.14.1.0.jar
+java.vendor=JetBrains s.r.o.
+java.runtime.version=17.0.4.1+7-b469.62
+user.dir=/home/student/IdeaProjects/ISRP_2022
+os.name=Linux
+os.arch=amd64
+os.version=5.14.0-171.el9.x86_64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
